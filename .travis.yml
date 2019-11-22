@@ -1,0 +1,10 @@
+sudo: required
+language: java
+jdk:
+  - oraclejdk9
+install: echo "skip 'gradle assemble' step"
+script:
+  - gradle clean build --stacktrace
+  - gradle check
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
