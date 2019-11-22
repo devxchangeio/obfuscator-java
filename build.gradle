@@ -1,0 +1,104 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.3.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+		jcenter()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "org.jfrog.buildinfo:build-info-extractor-gradle:3.1.1"
+		classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.8.4"
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'maven-publish'
+apply plugin: 'maven'
+apply plugin: 'com.jfrog.artifactory'
+apply plugin: 'com.jfrog.bintray'
+
+group 'io.devxchange'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+	maven { url "https://repo.spring.io/snapshot" }
+	maven { url "https://repo.spring.io/milestone" }
+}
+
+
+dependencies {
+	compile group: 'commons-codec', name: 'commons-codec', version: '1.10'
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.8.4'
+	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.8.4'
+	compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.2.RELEASE'
+	compile("javax.servlet:javax.servlet-api:3.1.0")
+	compile group: 'commons-io', name: 'commons-io', version: '2.4'
+	compile("com.google.code.gson:gson:2.3.1")
+	compile("com.jayway.jsonpath:json-path:2.0.0")
+}
+
+def javaApiUrl = 'http://docs.oracle.com/javase/1.7.0/docs/api/'
+tasks.withType(Javadoc) {
+	options.links(javaApiUrl)
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+	classifier = 'javadoc'
+	from 'build/docs/javadoc'
+}
+
+task sourcesJar(type: Jar) {
+	from sourceSets.main.allSource
+	classifier = 'sources'
+}
+
+def pomConfig = {
+	licenses {
+		license {
+			name "The Apache Software License, Version 2.0"
+			url "http://www.apache.org/licenses/LICENSE-2.0.txt"
+			distribution "repo"
+		}
+	}
+	developers {
+		developer {
+			id "sadayamuthu"
+			name "Karthikeyan Sadayamuthu"
+			email "ksadayamuthu@outlook.com"
+		}
+	}
+}
+
+publishing {
+	publications {
+		mavenJava(MavenPublication) {
+			from components.java
+			artifact sourcesJar
+			artifact javadocJar
+
+			pom.withXml {
+				def root = asNode()
+				root.appendNode('description', 'Obfuscator for Java Projects')
+				root.children().last() + pomConfig
+			}
+		}
+	}
+}
+
+bintray {
+	user = project.hasProperty('bintrayUser') ? project.bintrayUser : System.getenv('BINTRAY_USER')
+	key = project.hasProperty('bintrayKey') ? project.bintrayKey : System.getenv('BINTRAY_KEY')
+	publications = ['mavenJava']
+	pkg {
+		repo = 'maven-repo'
+		userOrg = 'devxchange'
+		name = 'obfuscator'
+		licenses = ['Apache-2.0']
+	}
+}
