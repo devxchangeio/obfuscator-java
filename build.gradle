@@ -21,7 +21,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'com.jfrog.bintray'
 
 group 'io.devxchange'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.2-SNAPSHOT'
 sourceCompatibility = 1.8
 
 repositories {
@@ -41,6 +41,9 @@ dependencies {
 	compile group: 'commons-io', name: 'commons-io', version: '2.4'
 	compile("com.google.code.gson:gson:2.3.1")
 	compile("com.jayway.jsonpath:json-path:2.0.0")
+	testImplementation('org.junit.jupiter:junit-jupiter-api:5.4.2')
+	testRuntime('org.junit.jupiter:junit-jupiter-engine:5.4.2')
+
 }
 
 def javaApiUrl = 'http://docs.oracle.com/javase/1.7.0/docs/api/'
