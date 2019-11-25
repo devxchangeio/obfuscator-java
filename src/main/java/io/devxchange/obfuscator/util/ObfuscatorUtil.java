@@ -1,13 +1,10 @@
-package io.devxchange.obfuscator;
+package io.devxchange.obfuscator.util;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -15,15 +12,13 @@ import java.util.stream.Collectors;
 /**
  * Created by io.devxchange on 5/2/17.
  */
-public class JsonObfuscator {
+public class ObfuscatorUtil {
 
-    private static final Logger LOG = LoggerFactory.getLogger(JsonObfuscator.class);
-
+    private static final Logger LOG = LoggerFactory.getLogger(ObfuscatorUtil.class);
 
     public static final String MASK_FIXED = "********";
 
-    private static final TypeReference defaultTypeRef = new TypeReference<Map<String, Object>>(){};
-    private static final ObjectMapper jsonObjectMapper = new ObjectMapper();
+
 
     public static final String STRATEGY_MD5 = "md5";
     public static final String STRATEGY_SHA256 = "sha256";
@@ -56,12 +51,12 @@ public class JsonObfuscator {
                     return applyFixedMask(value);
             }
         } else {
-           LOG.warn("Unknown obfuscation strategy: {}",strategy);
+            LOG.warn("Unknown obfuscation strategy: {}",strategy);
             return applyFixedMask(value);
         }
     }
 
-    public static Map<String,String> createFieldStrategyMap(Map<String,Set<String>> strategyFieldMap) {
+    public static Map<String,String> createFieldStrategyMap(Map<String, Set<String>> strategyFieldMap) {
         Map<String,String> obfuscateMap = new HashMap<>();
         strategyFieldMap.forEach((key,values) -> {
             values.forEach(value -> {
@@ -107,37 +102,7 @@ public class JsonObfuscator {
             }
         }
     }
-
-    public static String obfuscateJsonString(String payload, Map<String,Set<String>> strategyMap) {
-        if(StringUtils.isBlank(payload) || strategyMap==null || strategyMap.isEmpty()) {
-            return payload;
-        } else {
-            Map<String, Object> jsonMap;
-            try {
-                jsonMap = jsonObjectMapper.readValue(payload, defaultTypeRef);
-            } catch(IOException ioEx) {
-                LOG.error("Failed to parse json payload. Returning payload unaltered.",ioEx);
-                return payload;
-            }
-            if(jsonMap!=null) {
-                Map<String,String> fieldStrategyMap = createFieldStrategyMap(strategyMap);
-                processJsonMap(jsonMap,fieldStrategyMap);
-                // Convert back map to json
-                String jsonResult = "";
-                try {
-                    jsonResult = jsonObjectMapper.writeValueAsString(jsonMap);
-                } catch (IOException e) {
-                    LOG.warn("cannot create json from Map" + e.getMessage());
-                }
-                return jsonResult;
-            } else {
-                LOG.error("JSON object mapping of payload returned null. Returning original payload.");
-                return payload;
-            }
-        }
-    }
-
-    private static void processJsonMap(Map<String, Object> jsonMap, Map<String,String> fieldStrategyMap) {
+    public static void processJsonMap(Map<String, Object> jsonMap, Map<String,String> fieldStrategyMap) {
         jsonMap.forEach((fieldName,value) -> {
             if(fieldStrategyMap.containsKey(fieldName)) {
                 jsonMap.put(fieldName,processJsonField(fieldName,value,fieldStrategyMap));
@@ -153,7 +118,7 @@ public class JsonObfuscator {
         });
     }
 
-    private static Object processJsonField(String fieldName, Object value, Map<String,String> fieldStrategyMap) {
+    public static Object processJsonField(String fieldName, Object value, Map<String,String> fieldStrategyMap) {
         if(value==null) {
             return value;
         } else if(value instanceof String) {
@@ -171,5 +136,8 @@ public class JsonObfuscator {
             LOG.warn("Unknown JSON structure encountered.  Fix your code: {}",value.getClass().getName());
             return value;
         }
+    }
+    public static String extractFieldRegex(Map<String,Set<String>> fieldMap) {
+        return fieldMap.entrySet().stream().map(Map.Entry::getValue).distinct().map(value -> String.join("|",value)).collect(Collectors.joining("|"));
     }
 }
