@@ -15,7 +15,51 @@ public class ObfuscatorTest {
         items.add("name");
         items.add("salary");
         items.add("age");
-        obfuscatorMap.put("Obfuscate", items);
+        obfuscatorMap.put("obfuscate", items);
+        String response = Obfuscator.obfuscateJsonString(simpleJson,obfuscatorMap);
+        System.out.println(response);
+    }
+    @Test
+    public void testSimpleJson_none() {
+        Map<String, Set<String>> obfuscatorMap= new HashMap<>();
+        Set<String> items = new HashSet<>();
+        items.add("name");
+        items.add("salary");
+        items.add("age");
+        obfuscatorMap.put("none", items);
+        String response = Obfuscator.obfuscateJsonString(simpleJson,obfuscatorMap);
+        System.out.println(response);
+    }
+    @Test
+    public void testSimpleJson_md5() {
+        Map<String, Set<String>> obfuscatorMap= new HashMap<>();
+        Set<String> items = new HashSet<>();
+        items.add("name");
+        items.add("salary");
+        items.add("age");
+        obfuscatorMap.put("md5", items);
+        String response = Obfuscator.obfuscateJsonString(simpleJson,obfuscatorMap);
+        System.out.println(response);
+    }
+    @Test
+    public void testSimpleJson_sha256() {
+        Map<String, Set<String>> obfuscatorMap= new HashMap<>();
+        Set<String> items = new HashSet<>();
+        items.add("name");
+        items.add("salary");
+        items.add("age");
+        obfuscatorMap.put("sha256", items);
+        String response = Obfuscator.obfuscateJsonString(simpleJson,obfuscatorMap);
+        System.out.println(response);
+    }
+    @Test
+    public void testSimpleJson_matchedMask() {
+        Map<String, Set<String>> obfuscatorMap= new HashMap<>();
+        Set<String> items = new HashSet<>();
+        items.add("name");
+        items.add("salary");
+        items.add("age");
+        obfuscatorMap.put("matchedMask", items);
         String response = Obfuscator.obfuscateJsonString(simpleJson,obfuscatorMap);
         System.out.println(response);
     }
@@ -27,6 +71,50 @@ public class ObfuscatorTest {
         items.add("salary");
         items.add("age");
         obfuscatorMap.put("Obfuscate", items);
+        String response = Obfuscator.obfuscateJsonString(jsonList,obfuscatorMap);
+        System.out.println(response);
+    }
+    @Test
+    public void testJsonList_md5() {
+        Map<String, Set<String>> obfuscatorMap= new HashMap<>();
+        Set<String> items = new HashSet<>();
+        items.add("name");
+        items.add("salary");
+        items.add("age");
+        obfuscatorMap.put("md5", items);
+        String response = Obfuscator.obfuscateJsonString(jsonList,obfuscatorMap);
+        System.out.println(response);
+    }
+    @Test
+    public void testJsonList_none() {
+        Map<String, Set<String>> obfuscatorMap= new HashMap<>();
+        Set<String> items = new HashSet<>();
+        items.add("name");
+        items.add("salary");
+        items.add("age");
+        obfuscatorMap.put("none", items);
+        String response = Obfuscator.obfuscateJsonString(jsonList,obfuscatorMap);
+        System.out.println(response);
+    }
+    @Test
+    public void testJsonList_sha256() {
+        Map<String, Set<String>> obfuscatorMap= new HashMap<>();
+        Set<String> items = new HashSet<>();
+        items.add("name");
+        items.add("salary");
+        items.add("age");
+        obfuscatorMap.put("sha256", items);
+        String response = Obfuscator.obfuscateJsonString(jsonList,obfuscatorMap);
+        System.out.println(response);
+    }
+    @Test
+    public void testJsonList_matchedMask() {
+        Map<String, Set<String>> obfuscatorMap= new HashMap<>();
+        Set<String> items = new HashSet<>();
+        items.add("name");
+        items.add("salary");
+        items.add("age");
+        obfuscatorMap.put("matchedMask", items);
         String response = Obfuscator.obfuscateJsonString(jsonList,obfuscatorMap);
         System.out.println(response);
     }
@@ -42,6 +130,39 @@ public class ObfuscatorTest {
         String response = Obfuscator.obfuscateXmlString(simpleXML,obfuscatorMap);
         System.out.println(response);
     }
+    @Test
+    public void testSimpleXML_none() {
+        Map<String, Set<String>> obfuscatorMap= new HashMap<>();
+        Set<String> items = new HashSet<>();
+        items.add("name");
+        items.add("salary");
+        items.add("age");
+        obfuscatorMap.put("none", items);
+        String response = Obfuscator.obfuscateXmlString(simpleXML,obfuscatorMap);
+        System.out.println(response);
+    }
+    @Test
+    public void testSimpleXML_md5() {
+        Map<String, Set<String>> obfuscatorMap= new HashMap<>();
+        Set<String> items = new HashSet<>();
+        items.add("name");
+        items.add("salary");
+        items.add("age");
+        obfuscatorMap.put("md5", items);
+        String response = Obfuscator.obfuscateXmlString(simpleXML,obfuscatorMap);
+        System.out.println(response);
+    }
+    @Test
+    public void testSimpleXML_sha256() {
+        Map<String, Set<String>> obfuscatorMap= new HashMap<>();
+        Set<String> items = new HashSet<>();
+        items.add("name");
+        items.add("salary");
+        items.add("age");
+        obfuscatorMap.put("sha256", items);
+        String response = Obfuscator.obfuscateXmlString(simpleXML,obfuscatorMap);
+        System.out.println(response);
+    }
 
     @Test
     public void testComplexXML() {
@@ -51,6 +172,39 @@ public class ObfuscatorTest {
         items.add("salary");
         items.add("age");
         obfuscatorMap.put("Obfuscate", items);
+        String response = Obfuscator.obfuscateXmlString(complexXML,obfuscatorMap);
+        System.out.println(response);
+    }
+    @Test
+    public void testComplexXML_none() {
+        Map<String, Set<String>> obfuscatorMap= new HashMap<>();
+        Set<String> items = new HashSet<>();
+        items.add("name");
+        items.add("salary");
+        items.add("age");
+        obfuscatorMap.put("none", items);
+        String response = Obfuscator.obfuscateXmlString(complexXML,obfuscatorMap);
+        System.out.println(response);
+    }
+    @Test
+    public void testComplexXML_md5() {
+        Map<String, Set<String>> obfuscatorMap= new HashMap<>();
+        Set<String> items = new HashSet<>();
+        items.add("name");
+        items.add("salary");
+        items.add("age");
+        obfuscatorMap.put("md5", items);
+        String response = Obfuscator.obfuscateXmlString(complexXML,obfuscatorMap);
+        System.out.println(response);
+    }
+    @Test
+    public void testComplexXML_sha256() {
+        Map<String, Set<String>> obfuscatorMap= new HashMap<>();
+        Set<String> items = new HashSet<>();
+        items.add("name");
+        items.add("salary");
+        items.add("age");
+        obfuscatorMap.put("sha256", items);
         String response = Obfuscator.obfuscateXmlString(complexXML,obfuscatorMap);
         System.out.println(response);
     }
