@@ -6,7 +6,7 @@ Obfuscator framework provides simplified configuration to obfuscate the sensitiv
 
 ## Maven Repo 
 ```
-maven { url "https://devxchange.bintray.com/maven-repo/"}
+maven { url "https://dl.bintray.com/m2/release/"}
 
 ```
 
