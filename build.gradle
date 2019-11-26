@@ -21,7 +21,7 @@ apply plugin: 'com.jfrog.artifactory'
 apply plugin: 'com.jfrog.bintray'
 
 group 'io.devxchange'
-version = '0.0.2-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = 1.8
 
 repositories {
@@ -99,8 +99,9 @@ bintray {
 	key = project.hasProperty('bintrayKey') ? project.bintrayKey : System.getenv('BINTRAY_KEY')
 	publications = ['mavenJava']
 	pkg {
-		repo = 'maven-repo'
-		userOrg = 'devxchange'
+		vcsUrl= 'https://github.com/devxchangeio/obfuscator-java.git'
+		repo = 'release'
+		userOrg = 'm2'
 		name = 'obfuscator'
 		licenses = ['Apache-2.0']
 	}
