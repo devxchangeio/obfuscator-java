@@ -13,7 +13,7 @@ maven { url "https://devxchange.bintray.com/maven-repo/"}
 ## Dependencies
 
 ```
-compile ("io.devxchange:obfuscator:0.0.2-SNAPSHOT")
+compile ("io.devxchange:obfuscator:0.0.1")
 	
 ```
 
