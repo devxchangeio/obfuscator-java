@@ -26,9 +26,9 @@ https://github.com/devxchange-blog/obfuscator-demo.git[obfuscator-demo]
 
 ## Release History
 
-** 0.0.1-SNAPSHOT
-    * obfuscate json object.
-    * obfuscate xml object
+** 0.0.1
+    * obfuscate json - using md5, sha256, fixedMask, matchedMask.
+    * obfuscate xml - using md5, sha256, fixedMask, matchedMask.
 
 ## Meta
 Karthikeyan Sadayamuthu – https://www.linkedin.com/in/ksadayamuthu/[LinkedIn]
